@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ teacher.get_full_name }}{% endblock %}
+{% block content %}
+  <h2>{{ teacher.get_full_name }}</h2>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-bordered w-50">
+        <tr><th>Teacher ID</th><td>{{ teacher.teacher_id }}</td></tr>
+        <tr><th>Specialization</th><td>{{ teacher.specialization|default:"-" }}</td></tr>
+        <tr><th>Qualification</th><td>{{ teacher.qualification|default:"-" }}</td></tr>
+        <tr><th>Email</th><td>{{ teacher.email|default:"-" }}</td></tr>
+        <tr><th>Phone</th><td>{{ teacher.phone_number|default:"-" }}</td></tr>
+        <tr><th>Joining Date</th><td>{{ teacher.joining_date }}</td></tr>
+        <tr><th>Status</th><td>{{ teacher.get_status_display }}</td></tr>
+      </table>
+      <a href="{% url 'teacher:update' teacher.pk %}" class="btn btn-primary">Edit</a>
+      <a href="{% url 'teacher:list' %}" class="btn btn-secondary">Back</a>
+    </div>
+  </div>
+{% endblock %}

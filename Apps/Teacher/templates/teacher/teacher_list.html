@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+{% block title %}Teachers{% endblock %}
+{% block teacher_active %}active{% endblock %}
+{% block teacher_show %}show{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Teachers</h2>
+    <a href="{% url 'teacher:create' %}" class="btn btn-primary">+ Add Teacher</a>
+</div>
+<form method="get" class="mb-3">
+    <input type="text" name="q" class="form-control" style="max-width:300px" placeholder="Search..." value="{{ query }}">
+</form>
+
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title kantumruy-regular">បញ្ជីគ្រូបង្គោល</h4>
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Teacher-Name</th>
+                                <th>Specialization</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for teacher in teachers %}
+                                <tr>
+                                    <td>{{ teacher.employee_id }}</td>
+                                    <td>
+                                        <a href="{% url 'teacher:detail' teacher.pk %}">
+                                            {{ teacher.get_full_name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ teacher.specialization|default:"-" }}</td>
+                                    <td>
+                                        {% if teacher.status == Status.ACTIVE %}
+                                            <span class="badge bg-success">
+                                                {{ teacher.get_status_display }}
+                                            </span>
+
+                                        {% elif teacher.status == Status.ON_LEAVE %}
+                                            <span class="badge bg-info text-dark">
+                                                {{ teacher.get_status_display }}
+                                            </span>
+
+                                        {% elif teacher.status == Status.RESIGNED %}
+                                            <span class="badge bg-danger">
+                                                {{ teacher.get_status_display }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-rounded btn-fw" href="{% url 'teacher:update' teacher.pk %}"><i class="mdi mdi-human-edit"></i> Edit</a>
+                                        <a class="btn btn-danger btn-rounded btn-fw" href="{% url 'teacher:delete' teacher.pk %}"><i class="mdi mdi-delete-empty"></i> Delete</a></a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5">No teachers found.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
